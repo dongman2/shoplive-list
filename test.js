@@ -3,4 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     productTitles.forEach(title => {
         console.log(title.innerText);
     });
+    const productPrices = document.querySelectorAll('.price-item.price-item--regular');
+    productPrices.forEach(price => {
+        console.log('Price:', price.innerText.trim());
+    });
 });
