@@ -1,0 +1,37 @@
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '473362201890907',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v20.0'
+      });
+  
+      FB.AppEvents.logPageView();   
+  
+      // 로그인 및 토큰 요청
+      FB.login(function(response) {
+        if (response.authResponse) {
+          console.log('Welcome!  Fetching your information.... ');
+          FB.api('/me', function(response) {
+            console.log('Good to see you, ' + response.name + '.');
+          });
+        } else {
+          console.log('User cancelled login or did not fully authorize.');
+        }
+      });
+  
+      // Instagram Graph API 호출 예제
+      FB.api(
+        '/{ig-user-id}?fields=id,username',
+        'GET',
+        {},
+        function(response) {
+            // Insert your code here
+            console.log(response);
+        }
+      );
+    };
+  </script>
+  
