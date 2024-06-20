@@ -12,6 +12,7 @@
       document.addEventListener('click', function() {
       
           console.log('adding popstate listener');
+          document.body.innerHTML += '<p>잘했다 이제 백버튼 눌러봐</p>';
 
           // Create a new URL without the bCheck parameter
           var newUrl = new URL(window.location.href);
