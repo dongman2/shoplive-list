@@ -26,15 +26,12 @@
             alert('가지마세요');
             // Optionally, push the state again to prevent further back navigation
             history.pushState(null, document.title, newUrl.href);
+          window.removeEventListener('popstate', popstateHandler);
+          document.removeEventListener('click', clickHandler);
           });
 
           // Add a click event listener to the back button for manual testing
-          document.addEventListener('keydown', function(event) {
-            
-              alert('Back button detected');
-             
-            
-          });
+          
         
       });
     };
@@ -42,6 +39,6 @@
 </head>
 <body>
   <h1>Test Page</h1>
-  page의 아무데나 한번 클릭하시면 popstate리스너가 시작됩니다.
+  skinny Simpson. 페이지의 아무데나 일단 클릭하시오
 </body>
 </html>
