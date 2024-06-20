@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alert on Back Button</title>
+  <script>
+    window.onload = function() {
+      var urlParams = new URLSearchParams(window.location.search);
+    //   var button = document.createElement('button');
+    //   button.textContent = 'Run Script';
+    //   document.body.appendChild(button);
+
+      document.addEventListener('click', function() {
+      
+          console.log('adding popstate listener');
+
+          // Create a new URL without the bCheck parameter
+          var newUrl = new URL(window.location.href);
+          newUrl.searchParams.delete('bCheck');
+          newUrl.searchParams.set('status','monitoring');
+
+          // Add an initial history state without the bCheck parameter
+          history.pushState(null, document.title, newUrl.href);
+
+          // Listen for the popstate event
+          window.addEventListener('popstate', function(event) {
+            alert('가지마세요');
+            // Optionally, push the state again to prevent further back navigation
+            history.pushState(null, document.title, newUrl.href);
+          });
+
+          // Add a click event listener to the back button for manual testing
+          document.addEventListener('keydown', function(event) {
+            
+              alert('Back button detected');
+             
+            
+          });
+        
+      });
+    };
+  </script>
+</head>
+<body>
+  <h1>Test Page</h1>
+</body>
+</html>
