@@ -1,60 +1,56 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Alert on Back Button</title>
-  <script>
-    window.onload = function() {
-      var urlParams = new URLSearchParams(window.location.search);
-    //   var button = document.createElement('button');
-    //   button.textContent = 'Run Script';
-    //   document.body.appendChild(button);
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert on Back Button</title>
+    <script>
+        window.onload = function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            
+            var clickHandler = function () {
+                console.log('adding popstate listener');
+                document.body.innerHTML += '<p>잘했다 이제 백버튼 눌러봐</p>';
 
-      document.addEventListener('click', function() {
-      
-          console.log('adding popstate listener');
-          document.body.innerHTML += '<p>잘했다 이제 백버튼 눌러봐</p>';
+                var newUrl = new URL(window.location.href);
+                newUrl.searchParams.delete('bCheck');
+                newUrl.searchParams.set('status', 'monitoring');
+                
+                history.pushState(null, document.title, newUrl.href);
 
-          // Create a new URL without the bCheck parameter
-          var newUrl = new URL(window.location.href);
-          newUrl.searchParams.delete('bCheck');
-          newUrl.searchParams.set('status','monitoring');
+                window.addEventListener('popstate', popstateHandler);
+            };
 
-          // Add an initial history state without the bCheck parameter
-          history.pushState(null, document.title, newUrl.href);
+            var popstateHandler = function (event) {
+                alert('가지마세요');
+                var adLayer = document.createElement('div');
+                adLayer.style.position = 'fixed';
+                adLayer.style.width = '50%';
+                adLayer.style.height = '50%';
+                adLayer.style.top = '25%';
+                adLayer.style.left = '25%';
+                adLayer.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                adLayer.style.zIndex = '1000';
+                adLayer.style.display = 'flex';
+                adLayer.style.justifyContent = 'center';
+                adLayer.style.alignItems = 'center';
+                adLayer.style.color = 'white';
+                adLayer.style.fontSize = '24px';
+                adLayer.textContent = '광고를 여기다 붙여서 돈을 벌자';
+                document.body.appendChild(adLayer);
 
-          // Listen for the popstate event
-          window.addEventListener('popstate', function(event) {
-            alert('가지마세요');
-            var adLayer = document.createElement('div');
-            adLayer.style.position = 'fixed';
-            adLayer.style.width = '50%';
-            adLayer.style.height = '50%';
-            adLayer.style.top = '25%'; // Adjusted to center vertically
-            adLayer.style.left = '25%'; // Adjusted to center horizontally
-            adLayer.style.backgroundColor = 'rgba(0,0,0,0.5)';
-            adLayer.style.zIndex = '1000';
-            adLayer.style.display = 'flex';
-            adLayer.style.justifyContent = 'center';
-            adLayer.style.alignItems = 'center';
-            adLayer.style.color = 'white';
-            adLayer.style.fontSize = '24px';
-            adLayer.textContent = '광고를 여기다 붙여서 돈을 벌자';
-            document.body.appendChild(adLayer);
-            // Optionally, push the state again to prevent further back navigation
-            history.pushState(null, document.title, newUrl.href);
-          window.removeEventListener('popstate', popstateHandler);
-          document.removeEventListener('click', clickHandler);
-          });
+                window.removeEventListener('popstate', popstateHandler);
+                document.removeEventListener('click', clickHandler);
+            };
 
-          // Add a click event listener to the back button for manual testing
-          
-        
-      });
-    };
-  </script>
+            document.addEventListener('click', clickHandler);
+        };
+    </script>
 </head>
+
 <body>
-  <h1>Test Page</h1>
-  skinny Simpson. 페이지의 아무데나 일단 클릭하시오
- </body>
+    <h1>Test Page</h1>
+    skinny Simpson. 페이지의 아무데나 일단 클릭하시오
+</body>
+
 </html>
