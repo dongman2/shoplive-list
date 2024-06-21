@@ -18,6 +18,7 @@
                 history.pushState(null, document.title, newUrl);
 
                 window.addEventListener('popstate', popstateHandler);
+                document.removeEventListener('click', clickHandler);
             };
 
             var popstateHandler = function (event) {
@@ -39,7 +40,7 @@
                 document.body.appendChild(adLayer);
 
                 window.removeEventListener('popstate', popstateHandler);
-                document.removeEventListener('click', clickHandler);
+                
             };
 
             document.addEventListener('click', clickHandler);
