@@ -13,10 +13,9 @@
                 document.body.innerHTML += '<p>잘했다 이제 백버튼 눌러봐</p>';
 
                 var newUrl = new URL(window.location.href);
-                newUrl.searchParams.delete('bCheck');
-                newUrl.searchParams.set('status', 'monitoring');
                 
-                history.pushState(null, document.title, newUrl.href);
+                
+                history.pushState(null, document.title, newUrl);
 
                 window.addEventListener('popstate', popstateHandler);
             };
