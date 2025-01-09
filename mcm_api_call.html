@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Calls with Axios</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>API Call Demo</h1>
+    
+    <button onclick="callDecisionAPI()">Call Decision API</button>
+    <button onclick="callEventAPI()">Call Event API</button>
+
+    <script>
+        // URL 파라미터에서 키 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const decisionKey = urlParams.get('decision_key');
+        const eventKey = urlParams.get('event_key');
+
+        if (!decisionKey || !eventKey) {
+            alert("URL에 'decision_key'와 'event_key'가 필요합니다.");
+        }
+
+        // 첫 번째 요청 데이터 (Auction API)
+        const auctionData = {
+            user: {
+                user_id: "user_id"
+            },
+            device: {
+                os: "ios",
+                os_version: "15.1",
+                persistent_id: "persistent_id"
+            },
+            inventory: {
+                inventory_id: "HOME",
+                num_items: 10
+            },
+            filtering: {
+                category: {
+                    operator: "OR"
+                }
+            },
+            request_id: "20250108073207852-f4e9ac56-ad9f-4f25-a1cf-9fdfd1f372f3",
+            page_id: "/home"
+        };
+
+        // 두 번째 요청 데이터 (Event API)
+        const eventData = {
+            event_type: "HOME",
+            channel_type: "DESKTOP_SITE",
+            device: {
+                os: "ios",
+                os_version: "15.1",
+                persistent_id: "persistent_id",
+                model: "iPhone 11 Pro",
+                ua: "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/111FFF",
+                language: "en"
+            },
+            id: "20250108073748358-ba075a00-f2c3-4015-9932-302870aa647b",
+            timestamp: "1734589091000",
+            domain: "/home",
+            user_id: "test_user_id",
+            page_id: "/home"
+        };
+
+        // Auction API 호출
+        function callDecisionAPI() {
+            if (!decisionKey) {
+                alert("Decision API 호출 실패: 'decision_key'가 없습니다.");
+                return;
+            }
+
+            axios.post(
+                'https://dcsn-sel.rmp-api.moloco.com/rmp/decision/v1/platforms/MOLOCO_SHOP_DEMO/auction',
+                auctionData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': decisionKey
+                    }
+                }
+            ).then(response => {
+                console.log("Auction API Response:", response.data);
+                alert("Decision API 호출 성공!");
+            }).catch(error => {
+                console.error('Auction API Error:', error.response ? error.response.data : error.message);
+                alert("Decision API 호출 실패!");
+            });
+        }
+
+        // Event API 호출
+        function callEventAPI() {
+            if (!eventKey) {
+                alert("Event API 호출 실패: 'event_key'가 없습니다.");
+                return;
+            }
+
+            axios.post(
+                'https://evt-sel.rmp-api.moloco.com/rmp/event/v1/platforms/MOLOCO_SHOP_DEMO/userevents',
+                eventData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': eventKey
+                    }
+                }
+            ).then(response => {
+                console.log("Event API Response:", response.data);
+                alert("Event API 호출 성공!");
+            }).catch(error => {
+                console.error('Event API Error:', error.response ? error.response.data : error.message);
+                alert("Event API 호출 실패!");
+            });
+        }
+    </script>
+</body>
+</html>
